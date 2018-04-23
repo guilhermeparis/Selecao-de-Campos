@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Seleção de campos do arquivo</title>
+</head>
+
+<body>
+    <input type="file" name="your_file" id="file">
+    <br>
+    <br>
+    <div id="csv_fields">
+        
+    </div>
+    <script>
+        document.getElementById('file').onchange = function(){
+            var file = this.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function(progressEvent){
+                var lines = this.result.split('\n');
+                var columns = lines[0].split(';');
+                var container = document.getElementById("csv_fields");
+                
+                for(i = 0; i < columns.length; i++){ 
+                    var input = document.createElement("input");
+                    input.type = "checkbox";
+                    input.name = "field" + i;
+                    container.appendChild(input);
+                    container.appendChild(document.createTextNode(columns[i]));
+                    container.appendChild(document.createElement("br"));
+                }
+            }
+            reader.readAsText(file);
+        }
+    </script>
+</body>
+</html>
